@@ -8,12 +8,28 @@
     android:orientation="vertical">
 
     <!-- Start typing the names of the widgets below this comment -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Välkommen till Humorgruppen"
+        android:textSize="24dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:contentDescription="Logo"
+        app:srcCompat="@drawable/rida"
+        />
+
     <EditText
         android:id="@+id/my_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Skriv något här"
+        android:hint="Skriv ditt ärende här"
         android:textSize="14dp"
+        android:background="#eee"
         />
 
     <Button
@@ -21,6 +37,7 @@
         android:text="Skicka"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#09f"
         />
 
 
