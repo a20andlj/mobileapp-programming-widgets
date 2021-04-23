@@ -1,42 +1,117 @@
 
-# Rapport
+# Dugga 3: Widgets
 
-**Skriv din rapport här!**
+Först forkades appen widgets på Lenasys Github till a20andlj-sidan på Github. Därefter klonades url:en 
+och startades i Android Studio.
 
-_Du kan ta bort all text som finns sedan tidigare_.
+Efter lite fram och tillbaka bestämdes det att en contstraint layout skulle användas att placera
+widgetarna i. 
+```
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+```
 
-## Följande grundsyn gäller dugga-svar:
+Därefter skissades en enkel layout ut för appen på ett papper och utifrån den undersöktes vilka widgetar
+som skulle passa för respektive del.
 
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
+Överst i layouten i XML-filen skapades en imageview som döps till rida2. Efter lite fixande och trixande
+och hjälp från handledarna importerades en bilden rida2. Det funkade inte att lägga till en .jpg vilket var konstigt, 
+men när bilden gjordes om till .png funkade importen till drawable-mappen i Resource Manager. Det länkades 
+till bilden med srcCompat. För att placera widgeterna så användes contraintRight, left m.m. för att placera de.
+Detta gjordes dock efter att alla fyra widgetar hade lagts till. En fundering dock är att på exemplet i 
+LenaSys så stod det att fyra riktningar måste användas, men i detta fall verkar inte det behövas för att 
+få till rätt placering.
+```
+<ImageView
+        android:id="@+id/rida2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Logo"
+        app:srcCompat="@drawable/rida2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/my_edit"
+        />
+```
 
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
+Sedan lades det till en TextView som skulle innehålla en hälsningsfras för att veta vilken app 
+användaren kommit till. Den stylades med en annan fontfamilj plus lite andra detaljer som går att se
+i koden nedan. Texten skulle ligga på ridå-bilden och därför placerades den i förhållande till bilden.
+```
+<TextView
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Välkommen till RidåGruppen"
+        android:textAlignment="center"
+        android:fontFamily="cursive"
+        android:textSize="33sp"
+        android:textColor="#eee"
+        app:layout_constraintStart_toStartOf="@+id/rida2"
+        app:layout_constraintEnd_toEndOf="@+id/rida2"
+        app:layout_constraintBottom_toBottomOf="@+id/rida2"
+        app:layout_constraintTop_toTopOf="@+id/rida2"
 
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
+Under bilden och Textvyn skapades sedan en EditText plus en button. Tanken var att användaren ska 
+kunna skriva ett meddelande och skicka till företaget via appen och i sin tur bli kontaktad.
+```
+   <EditText
+        android:id="@+id/my_edit"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        android:background="#eee"
+        android:hint="Skriv ditt ärende här, så kontaktar vi dig inom ett dygn."
+        android:textSize="24sp"
+        android:textStyle="italic"
+        android:textColorHint="#555"
+        app:layout_constraintTop_toBottomOf="@id/rida2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+```
+```
+<Button
+        android:id="@+id/my_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#09f"
+        android:text="Skicka"
+        android:textColor="#eee"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_edit"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"
+        />
+```
+
+I java-koden aktiverades skicka-knappen så att den svarar på tryck. Den lades till en log.d med en tag och meddelande så att ska 
+synas i logcaten om knappen fungerar.
+```
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button button = findViewById(R.id.my_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("==>", "Tryckt skicka: ");
+            }
+        });
     }
-}
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+Här är resultatet via en screenshot på appen.
 
-![](android.png)
+![](screenshot_widget.png)
 
-Läs gärna:
-
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
